@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tim Spektra — Excellence Through Endless Improvement</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-950:#0A101D;
+    --navy-900:#0F1729;
+    --navy-800:#16223B;
+    --navy-700:#212F4D;
+    --paper:#EEF1F0;
+    --paper-2:#E4E8E6;
+    --ink:#101418;
+    --slate:#5B6675;
+    --diamond:#8FD8E3;
+    --gold:#C99A3B;
+    --gold-light:#E8C878;
+    --platinum:#AEB8C4;
+    --line:rgba(16,20,24,0.1);
+    --line-dark:rgba(255,255,255,0.12);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{ font-family:'Space Grotesk', sans-serif; letter-spacing:-0.01em; }
+  .mono{ font-family:'IBM Plex Mono', monospace; }
+  a{color:inherit;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+  }
+
+  ::selection{ background:var(--gold-light); color:var(--navy-950); }
+
+  /* ---------- facet svg backgrounds ---------- */
+  .facet-bg{
+    position:absolute; inset:0; overflow:hidden; pointer-events:none;
+  }
+
+  /* ---------- Nav ---------- */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 6vw;
+    background:rgba(10,16,29,0.72);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line-dark);
+    transition:padding .3s ease;
+  }
+  .nav-brand{
+    display:flex; align-items:center; gap:10px;
+    color:#fff; font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:15px;
+    letter-spacing:0.02em;
+  }
+  .nav-brand .gem{ width:16px; height:16px; flex-shrink:0; }
+  .nav-links{ display:flex; gap:32px; }
+  .nav-links a{
+    color:rgba(255,255,255,0.68); text-decoration:none; font-size:13px; font-weight:500;
+    letter-spacing:0.03em; text-transform:uppercase; position:relative; padding-bottom:2px;
+    transition:color .25s ease;
+  }
+  .nav-links a::after{
+    content:''; position:absolute; left:0; bottom:-2px; width:0; height:1px; background:var(--gold-light);
+    transition:width .25s ease;
+  }
+  .nav-links a:hover{ color:#fff; }
+  .nav-links a:hover::after{ width:100%; }
+  @media (max-width:760px){ .nav-links{ display:none; } }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    min-height:100svh;
+    background:radial-gradient(ellipse 120% 90% at 75% 0%, #16223B 0%, #0A101D 55%, #070B14 100%);
+    display:flex; flex-direction:column; justify-content:center;
+    padding:120px 6vw 80px;
+    color:#fff;
+    isolation:isolate;
+  }
+  .hero .facet-bg svg{ width:100%; height:100%; opacity:0.5; }
+  .hero-eyebrow{
+    display:inline-flex; align-items:center; gap:10px; width:fit-content;
+    font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--gold-light); border:1px solid rgba(232,200,120,0.35); border-radius:100px;
+    padding:7px 16px 7px 12px; margin-bottom:28px;
+    opacity:0; animation:riseIn .8s ease forwards .15s;
+  }
+  .hero-eyebrow .dot{ width:6px; height:6px; border-radius:50%; background:var(--gold-light); box-shadow:0 0 10px var(--gold-light); }
+  .hero h1{
+    font-size:clamp(52px, 10vw, 128px);
+    font-weight:700; line-height:0.92; letter-spacing:-0.03em;
+    background:linear-gradient(180deg, #FFFFFF 30%, #C9D3E0 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    opacity:0; animation:riseIn .9s ease forwards .28s;
+  }
+  .hero-sub{
+    margin-top:22px; max-width:560px; font-size:clamp(15px,2vw,18px); color:rgba(255,255,255,0.62);
+    font-weight:400; opacity:0; animation:riseIn .9s ease forwards .42s;
+  }
+  .hero-sub strong{ color:var(--gold-light); font-weight:600; }
+  .hero-meta{
+    margin-top:52px; display:flex; flex-wrap:wrap; gap:0;
+    border-top:1px solid var(--line-dark);
+    opacity:0; animation:riseIn .9s ease forwards .56s;
+  }
+  .hero-meta .cell{
+    padding:20px 32px 0 0; margin-right:32px; border-right:1px solid var(--line-dark);
+    min-width:110px;
+  }
+  .hero-meta .cell:last-child{ border-right:none; }
+  .hero-meta .num{ font-family:'Space Grotesk',sans-serif; font-size:32px; font-weight:700; color:#fff; }
+  .hero-meta .lbl{ font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:rgba(255,255,255,0.42); margin-top:4px; }
+
+  @keyframes riseIn{ from{ opacity:0; transform:translateY(18px);} to{ opacity:1; transform:translateY(0);} }
+
+  .scroll-cue{
+    position:absolute; bottom:34px; left:6vw; display:flex; align-items:center; gap:10px;
+    color:rgba(255,255,255,0.4); font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase;
+  }
+  .scroll-cue .line{ width:36px; height:1px; background:rgba(255,255,255,0.4); position:relative; overflow:hidden; }
+  .scroll-cue .line::after{ content:''; position:absolute; left:-100%; top:0; width:100%; height:100%; background:var(--gold-light); animation:travel 2.2s ease-in-out infinite; }
+  @keyframes travel{ 0%{left:-100%;} 50%{left:100%;} 100%{left:100%;} }
+
+  /* ---------- Section shell ---------- */
+  section{ padding:110px 6vw; position:relative; }
+  .section-head{ max-width:680px; margin-bottom:64px; }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--gold); display:flex; align-items:center; gap:10px; margin-bottom:16px;
+  }
+  .eyebrow::before{ content:''; width:22px; height:1px; background:var(--gold); }
+  .section-head h2{ font-size:clamp(30px,4vw,46px); font-weight:600; letter-spacing:-0.02em; }
+  .section-head p{ margin-top:16px; color:var(--slate); font-size:16px; max-width:560px; }
+
+  .reveal{ opacity:0; transform:translateY(28px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  /* ---------- About ---------- */
+  #tentang{ background:var(--paper); }
+  .about-grid{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:60px; align-items:start; }
+  @media (max-width:860px){ .about-grid{ grid-template-columns:1fr; } }
+  .about-text p{ color:var(--slate); font-size:16px; margin-bottom:16px; max-width:56ch; }
+  .about-text b{ color:var(--ink); }
+  .about-card{
+    background:var(--navy-950); color:#fff; border-radius:4px; padding:32px;
+    position:relative; overflow:hidden;
+  }
+  .about-card .facet-bg svg{ width:100%; height:100%; opacity:0.35; }
+  .about-card h3{ font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold-light); font-weight:500; margin-bottom:20px; }
+  .about-card dl{ display:grid; grid-template-columns:auto 1fr; gap:12px 18px; font-size:14px; }
+  .about-card dt{ color:rgba(255,255,255,0.45); }
+  .about-card dd{ font-weight:500; text-align:right; }
+  .about-card hr{ grid-column:1/-1; border:none; border-top:1px solid var(--line-dark); margin:4px 0; }
+
+  /* ---------- Achievements ---------- */
+  #prestasi{ background:var(--navy-950); color:#fff; }
+  #prestasi .section-head p{ color:rgba(255,255,255,0.55); }
+
+  .filter-row{ display:flex; gap:10px; margin-bottom:40px; flex-wrap:wrap; }
+  .chip{
+    font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.06em;
+    padding:9px 18px; border-radius:100px; border:1px solid var(--line-dark);
+    background:transparent; color:rgba(255,255,255,0.65); cursor:pointer;
+    transition:all .25s ease;
+  }
+  .chip:hover{ border-color:var(--gold-light); color:#fff; }
+  .chip.active{ background:var(--gold-light); border-color:var(--gold-light); color:var(--navy-950); font-weight:600; }
+
+  .award-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line-dark); border:1px solid var(--line-dark); }
+  @media (max-width:900px){ .award-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:600px){ .award-grid{ grid-template-columns:1fr; } }
+
+  .award-card{
+    background:var(--navy-900); padding:30px 26px; display:flex; flex-direction:column; gap:18px;
+    transition:background .3s ease, transform .3s ease; cursor:default;
+  }
+  .award-card:hover{ background:var(--navy-800); transform:translateY(-3px); }
+  .award-card.hide{ display:none; }
+  .gem-badge{ width:44px; height:44px; }
+  .award-tier{ font-family:'Space Grotesk',sans-serif; font-size:19px; font-weight:600; }
+  .award-tier.Diamond{ color:var(--diamond); }
+  .award-tier.Gold{ color:var(--gold-light); }
+  .award-tier.Platinum{ color:var(--platinum); }
+  .award-team{ font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:rgba(255,255,255,0.4); font-family:'IBM Plex Mono',monospace; }
+  .award-meta{ margin-top:auto; padding-top:16px; border-top:1px solid var(--line-dark); display:flex; justify-content:space-between; font-size:13px; color:rgba(255,255,255,0.6); }
+  .award-meta .year{ font-family:'IBM Plex Mono',monospace; color:#fff; font-weight:500; }
+
+  /* ---------- Team members ---------- */
+  #anggota{ background:var(--paper); }
+  .member-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:26px; }
+  @media (max-width:960px){ .member-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:620px){ .member-grid{ grid-template-columns:1fr; } }
+
+  .member-card{
+    background:#fff; border:1px solid var(--line); border-radius:6px; padding:26px;
+    position:relative; overflow:hidden; transition:transform .35s ease, box-shadow .35s ease;
+  }
+  .member-card:hover{ transform:translateY(-6px); box-shadow:0 24px 48px -20px rgba(16,20,24,0.22); }
+  .member-top{ display:flex; align-items:center; gap:16px; margin-bottom:22px; }
+  .avatar{
+    width:58px; height:58px; flex-shrink:0; position:relative;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--navy-950); clip-path:polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    color:var(--gold-light); font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:16px;
+  }
+  .member-name{ font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:17px; }
+  .member-role{ font-size:12.5px; color:var(--slate); margin-top:2px; }
+  .member-facts{ display:flex; gap:18px; margin-bottom:20px; padding-bottom:20px; border-bottom:1px dashed var(--line); }
+  .member-facts .f{ font-size:12px; }
+  .member-facts .f b{ display:block; font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:600; color:var(--ink); margin-top:2px; }
+  .member-facts .f span{ color:var(--slate); }
+
+  .comp-row{ display:flex; align-items:center; gap:10px; margin-bottom:9px; }
+  .comp-row:last-child{ margin-bottom:0; }
+  .comp-label{ width:64px; flex-shrink:0; font-size:11.5px; color:var(--slate); }
+  .comp-track{ flex:1; height:5px; background:var(--paper-2); border-radius:3px; overflow:hidden; }
+  .comp-fill{ height:100%; border-radius:3px; background:linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 100%); width:0%; transition:width 1.1s cubic-bezier(.2,.8,.2,1); }
+  .comp-val{ width:34px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--ink); }
+
+  .member-badges{ display:flex; gap:6px; margin-top:20px; flex-wrap:wrap; }
+  .badge-dot{ width:9px; height:9px; clip-path:polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); }
+  .badge-dot.Diamond{ background:var(--diamond); }
+  .badge-dot.Gold{ background:var(--gold); }
+  .badge-dot.Platinum{ background:var(--platinum); }
+
+  /* ---------- Gallery ---------- */
+  #galeri{ background:var(--navy-950); color:#fff; }
+  #galeri .section-head p{ color:rgba(255,255,255,0.55); }
+  .gallery-strip{
+    display:flex; gap:16px; overflow-x:auto; padding-bottom:12px; scroll-snap-type:x mandatory;
+    scrollbar-width:thin; scrollbar-color:var(--gold-light) transparent;
+  }
+  .gallery-strip::-webkit-scrollbar{ height:6px; }
+  .gallery-strip::-webkit-scrollbar-thumb{ background:var(--gold-light); border-radius:10px; }
+  .gcard{
+    flex:0 0 auto; width:280px; height:190px; scroll-snap-align:start;
+    border-radius:6px; position:relative; overflow:hidden; border:1px solid var(--line-dark);
+    display:flex; align-items:flex-end; padding:18px;
+    background:linear-gradient(160deg, var(--navy-800), var(--navy-950));
+  }
+  .gcard .facet-bg svg{ opacity:0.4; }
+  .gcard span{ position:relative; z-index:2; font-family:'IBM Plex Mono',monospace; font-size:12px; color:rgba(255,255,255,0.75); letter-spacing:0.04em; }
+
+  /* ---------- Footer ---------- */
+  footer{
+    background:var(--navy-950); color:rgba(255,255,255,0.5); padding:48px 6vw 32px;
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;
+    border-top:1px solid var(--line-dark); font-size:13px;
+  }
+  footer .fbrand{ color:#fff; font-family:'Space Grotesk',sans-serif; font-weight:600; }
+  footer a{ text-decoration:none; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">
+    <svg class="gem" viewBox="0 0 24 24" fill="none"><polygon points="12,2 20,8 20,16 12,22 4,16 4,8" stroke="#E8C878" stroke-width="1.4"/><line x1="4" y1="8" x2="20" y2="8" stroke="#E8C878" stroke-width="1"/><line x1="12" y1="2" x2="12" y2="22" stroke="#E8C878" stroke-width="0.6" opacity="0.5"/></svg>
+    TIM SPEKTRA
+  </div>
+  <div class="nav-links">
+    <a href="#tentang">Tentang</a>
+    <a href="#prestasi">Prestasi</a>
+    <a href="#anggota">Anggota</a>
+    <a href="#galeri">Galeri</a>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero">
+  <div class="facet-bg">
+    <svg viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="fg1" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#E8C878" stop-opacity="0.5"/>
+          <stop offset="100%" stop-color="#8FD8E3" stop-opacity="0.08"/>
+        </linearGradient>
+      </defs>
+      <polygon points="750,80 1050,220 1000,520 700,600 620,320" fill="none" stroke="url(#fg1)" stroke-width="1"/>
+      <polygon points="900,60 1180,180 1140,460" fill="none" stroke="#E8C878" stroke-width="0.6" opacity="0.35"/>
+      <polygon points="620,320 700,600 480,660 380,420" fill="none" stroke="#8FD8E3" stroke-width="0.6" opacity="0.3"/>
+      <line x1="750" y1="80" x2="700" y2="600" stroke="#E8C878" stroke-width="0.4" opacity="0.25"/>
+      <line x1="1050" y1="220" x2="620" y2="320" stroke="#E8C878" stroke-width="0.4" opacity="0.2"/>
+      <line x1="1000" y1="520" x2="480" y2="660" stroke="#8FD8E3" stroke-width="0.4" opacity="0.2"/>
+    </svg>
+  </div>
+
+  <div class="hero-eyebrow"><span class="dot"></span>PT Indofood CBP Sukses Makmur — Divisi Flexible Packaging, Plant Cikupa</div>
+  <h1>SPEKTRA</h1>
+  <p class="hero-sub">Tim continuous improvement yang mengasah presisi lini <strong>slitting &amp; quality control</strong> menjadi rekam jejak prestasi — dari konvensi Plant hingga panggung Cipta. <strong>Excellence Through Endless Improvement.</strong></p>
+
+  <div class="hero-meta">
+    <div class="cell"><div class="num">6</div><div class="lbl">Penghargaan</div></div>
+    <div class="cell"><div class="num">3</div><div class="lbl">Diamond</div></div>
+    <div class="cell"><div class="num">6</div><div class="lbl">Anggota Tim</div></div>
+    <div class="cell"><div class="num">24</div><div class="lbl">Thn Terlama</div></div>
+  </div>
+
+  <div class="scroll-cue"><div class="line"></div>SCROLL</div>
+</header>
+
+<!-- ================= ABOUT ================= -->
+<section id="tentang">
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <div class="eyebrow">Tentang Tim</div>
+      <h2 style="margin-bottom:24px;">Presisi di lini produksi, budaya di setiap perbaikan.</h2>
+      <p>Tim Spektra lahir dari operator <b>slitting</b> dan <b>quality control</b> di Plant Cikupa yang mengubah pekerjaan harian menjadi kebiasaan continuous improvement. Setiap perbaikan kecil di lini dikumpulkan, diukur, dan dipresentasikan melalui jalur konvensi CI internal perusahaan.</p>
+      <p>Sepanjang 2024–2025, Tim Spektra — melanjutkan capaian pendahulunya, Tim Struktural — konsisten membawa pulang predikat tertinggi di tingkat Plant, Divisi, hingga Cipta, sambil tetap menjaga kompetensi individu anggotanya lewat penilaian Knowledge, Skill, Attitude, dan People Review.</p>
+    </div>
+    <div class="about-card reveal">
+      <div class="facet-bg">
+        <svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid slice">
+          <polygon points="380,10 400,120 300,180 260,60" fill="none" stroke="#E8C878" stroke-width="1"/>
+          <polygon points="0,260 90,180 180,300 60,320" fill="none" stroke="#8FD8E3" stroke-width="0.8"/>
+        </svg>
+      </div>
+      <h3>Profil Perusahaan</h3>
+      <dl>
+        <dt>Perusahaan</dt><dd>PT Indofood CBP Sukses Makmur</dd>
+        <hr>
+        <dt>Divisi</dt><dd>Flexible Packaging</dd>
+        <hr>
+        <dt>Plant</dt><dd>Cikupa, Tangerang</dd>
+        <hr>
+        <dt>Fokus tim</dt><dd>Slitting &amp; Quality Control</dd>
+        <hr>
+        <dt>Metodologi</dt><dd>PDCA / DMAIC</dd>
+        <hr>
+        <dt>Periode aktif</dt><dd>2024 — 2025</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PRESTASI ================= -->
+<section id="prestasi">
+  <div class="section-head reveal">
+    <div class="eyebrow">Rekam Jejak</div>
+    <h2>Enam penghargaan, dua generasi tim.</h2>
+    <p>Dari Tim Struktural di 2024 hingga Tim Spektra di 2025 — jejak konvensi CI yang terus naik kelas, dari Gold menuju Platinum.</p>
+  </div>
+
+  <div class="filter-row reveal">
+    <button class="chip active" data-filter="all">Semua</button>
+    <button class="chip" data-filter="2024">2024</button>
+    <button class="chip" data-filter="2025">2025</button>
+    <button class="chip" data-filter="Struktural">Tim Struktural</button>
+    <button class="chip" data-filter="Spektra">Tim Spektra</button>
+  </div>
+
+  <div class="award-grid reveal" id="awardGrid"></div>
+</section>
+
+<!-- ================= ANGGOTA ================= -->
+<section id="anggota">
+  <div class="section-head reveal">
+    <div class="eyebrow">Anggota Tim</div>
+    <h2>Enam orang di balik lini slitting.</h2>
+    <p>Masa kerja beragam — dari satu tahun hingga dua dekade lebih — disatukan oleh kompetensi yang terus diukur dan ditingkatkan.</p>
+  </div>
+  <div class="member-grid" id="memberGrid"></div>
+</section>
+
+<!-- ================= GALERI ================= -->
+<section id="galeri">
+  <div class="section-head reveal">
+    <div class="eyebrow">Galeri</div>
+    <h2>Momen dari podium hingga pelatihan.</h2>
+  </div>
+  <div class="gallery-strip reveal" id="galleryStrip"></div>
+</section>
+
+<footer>
+  <div class="fbrand">TIM SPEKTRA</div>
+  <div>Divisi Flexible Packaging · Plant Cikupa · PT Indofood CBP Sukses Makmur</div>
+</footer>
+
+<script>
+// ---------------- data ----------------
+const awards = [
+  { tim:"Struktural", konvensi:"Plant", penghargaan:"Diamond", lokasi:"Cikupa Tangerang", tahun:2024 },
+  { tim:"Struktural", konvensi:"Divisi", penghargaan:"Diamond", lokasi:"BIC Expand Purwakarta", tahun:2024 },
+  { tim:"Struktural", konvensi:"Cipta", penghargaan:"Gold", lokasi:"Cipta", tahun:2024 },
+  { tim:"Spektra", konvensi:"Plant", penghargaan:"Diamond", lokasi:"Cikupa Tangerang", tahun:2025 },
+  { tim:"Spektra", konvensi:"Divisi", penghargaan:"Diamond", lokasi:"Cikupa Tangerang", tahun:2025 },
+  { tim:"Spektra", konvensi:"Cipta", penghargaan:"Platinum", lokasi:"Cipta", tahun:2025 },
+];
+
+const members = [
+  { nama:"Handoko", lahir:"05 September 1982", bagian:"Slitting Operator", masaKerja:"24 tahun", k:3.96, s:3.44, a:3.74, pr:3.79 },
+  { nama:"Samsul Bukhori", lahir:"18 Januari 1994", bagian:"Slitting Operator", masaKerja:"13 tahun", k:3.83, s:3.33, a:3.56, pr:3.82 },
+  { nama:"M. Baharudin S", lahir:"12 Oktober 2004", bagian:"Slitting Operator", masaKerja:"1 tahun", k:4.17, s:3.39, a:3.56, pr:3.82 },
+  { nama:"Naufal Rifky Ananda", lahir:"14 Agustus 2002", bagian:"Slitting Operator", masaKerja:"1 tahun", k:4.17, s:3.39, a:3.56, pr:3.82 },
+  { nama:"Dedi Ubaydillah", lahir:"20 Desember 2001", bagian:"Quality Control", masaKerja:"2 tahun", k:4.17, s:3.50, a:3.93, pr:3.68 },
+  { nama:"Seh Satiari", lahir:"17 Desember 1998", bagian:"Slitting Operator", masaKerja:"4 tahun", k:3.92, s:3.06, a:3.33, pr:3.89 },
+];
+
+const galleryCaptions = [
+  "Tim Spektra — Training KKM bersama CHR",
+  "Penyerahan sertifikat & piala Konvensi Plant",
+  "Predikat Diamond — Konvensi Divisi Packaging",
+  "Kunjungan apresiasi tim di kantor Indofood CBP",
+  "Podium Cipta — perolehan Gold CIPTA 2024",
+  "Excellence Through Endless Improvement — tim lengkap"
+];
+
+const gemSVG = `<svg viewBox="0 0 24 24" fill="none"><polygon points="12,2 20,8 20,16 12,22 4,16 4,8" fill="currentColor" opacity="0.15"/><polygon points="12,2 20,8 20,16 12,22 4,16 4,8" stroke="currentColor" stroke-width="1.3"/><line x1="4" y1="8" x2="20" y2="8" stroke="currentColor" stroke-width="0.8"/><line x1="12" y1="2" x2="12" y2="22" stroke="currentColor" stroke-width="0.5" opacity="0.6"/></svg>`;
+
+// ---------------- render awards ----------------
+const awardGrid = document.getElementById('awardGrid');
+function renderAwards(filter){
+  awardGrid.innerHTML = '';
+  awards.forEach(a => {
+    const match = filter === 'all' || filter == a.tahun || filter === a.tim;
+    const card = document.createElement('div');
+    card.className = 'award-card' + (match ? '' : ' hide');
+    card.innerHTML = `
+      <div class="gem-badge award-tier ${a.penghargaan}">${gemSVG}</div>
+      <div>
+        <div class="award-tier ${a.penghargaan}">${a.penghargaan}</div>
+        <div class="award-team">Tim ${a.tim} · Konvensi ${a.konvensi}</div>
+      </div>
+      <div class="award-meta"><span>${a.lokasi}</span><span class="year">${a.tahun}</span></div>
+    `;
+    awardGrid.appendChild(card);
+  });
+}
+renderAwards('all');
+
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    renderAwards(chip.dataset.filter);
+  });
+});
+
+// ---------------- render members ----------------
+const memberGrid = document.getElementById('memberGrid');
+members.forEach(m => {
+  const initials = m.nama.split(' ').map(w => w[0]).slice(0,2).join('').toUpperCase();
+  const card = document.createElement('div');
+  card.className = 'member-card';
+  card.innerHTML = `
+    <div class="member-top">
+      <div class="avatar">${initials}</div>
+      <div>
+        <div class="member-name">${m.nama}</div>
+        <div class="member-role">${m.bagian}</div>
+      </div>
+    </div>
+    <div class="member-facts">
+      <div class="f"><span>Lahir</span><b>${m.lahir}</b></div>
+      <div class="f"><span>Masa Kerja</span><b>${m.masaKerja}</b></div>
+    </div>
+    <div class="comp">
+      <div class="comp-row"><div class="comp-label">Knowledge</div><div class="comp-track"><div class="comp-fill" data-val="${m.k/5*100}"></div></div><div class="comp-val">${m.k.toFixed(2)}</div></div>
+      <div class="comp-row"><div class="comp-label">Skill</div><div class="comp-track"><div class="comp-fill" data-val="${m.s/5*100}"></div></div><div class="comp-val">${m.s.toFixed(2)}</div></div>
+      <div class="comp-row"><div class="comp-label">Attitude</div><div class="comp-track"><div class="comp-fill" data-val="${m.a/5*100}"></div></div><div class="comp-val">${m.a.toFixed(2)}</div></div>
+      <div class="comp-row"><div class="comp-label">People Rev.</div><div class="comp-track"><div class="comp-fill" data-val="${m.pr/5*100}"></div></div><div class="comp-val">${m.pr.toFixed(2)}</div></div>
+    </div>
+    <div class="member-badges">
+      <span class="badge-dot Diamond" title="Diamond Konvensi Unit Plant &amp; Divisi Packaging 2024 / 2025"></span>
+      <span class="badge-dot Gold" title="Gold CIPTA 2024"></span>
+      <span class="badge-dot Platinum" title="Platinum Cipta 2025"></span>
+    </div>
+  `;
+  memberGrid.appendChild(card);
+});
+
+// ---------------- render gallery ----------------
+const galleryStrip = document.getElementById('galleryStrip');
+galleryCaptions.forEach((cap, i) => {
+  const g = document.createElement('div');
+  g.className = 'gcard';
+  g.innerHTML = `
+    <div class="facet-bg"><svg viewBox="0 0 280 190" preserveAspectRatio="xMidYMid slice">
+      <polygon points="${40+i*20},10 260,${40+i*8} 220,180 60,150" fill="none" stroke="#E8C878" stroke-width="0.8"/>
+    </svg></div>
+    <span>${String(i+1).padStart(2,'0')} — ${cap}</span>
+  `;
+  galleryStrip.appendChild(g);
+});
+
+// ---------------- scroll reveal ----------------
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      e.target.classList.add('in');
+      if(e.target.id === 'memberGrid' || e.target.contains(document.querySelector('.comp-fill'))){
+        document.querySelectorAll('.comp-fill').forEach(f => { f.style.width = f.dataset.val + '%'; });
+      }
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// separately trigger competency bars when member section is visible
+const memberSection = document.getElementById('anggota');
+const io2 = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      document.querySelectorAll('.comp-fill').forEach(f => { f.style.width = f.dataset.val + '%'; });
+      io2.disconnect();
+    }
+  });
+}, { threshold: 0.2 });
+io2.observe(memberSection);
+</script>
+</body>
+</html>
