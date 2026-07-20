@@ -1,3 +1,16 @@
+
+
+Lewatkan ke konten
+Menggunakan Gmail dengan pembaca layar
+Pembaruan penyimpanan
+Dapatkan 30 GB seharga Rp 14.500 Rp 0 selama 1 bulan
+Penyimpanan digunakan bersama di Gmail, Drive, dan Foto
+12,4 GB dari 15 GB digunakan
+Percakapan
+82% dari 15 GB digunakan
+Persyaratan · Privasi · Kebijakan Program
+Aktivitas akun terakhir: 0 menit yang lalu
+Detail
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -88,8 +101,24 @@
     padding:120px 6vw 80px;
     color:#fff;
     isolation:isolate;
+    overflow:hidden;
   }
+  /* Foto latar hero (opsional). Isi src pada <img id="heroPhoto"> di HTML.
+     Jika tidak diisi / gagal load, otomatis disembunyikan dan hanya pola facet yang tampil. */
+  .hero-photo{
+    position:absolute; inset:0; z-index:0;
+  }
+  .hero-photo img{
+    width:100%; height:100%; object-fit:cover; object-position:center 20%;
+    opacity:0.28; filter:grayscale(20%) contrast(1.05);
+  }
+  .hero-photo::after{
+    content:''; position:absolute; inset:0;
+    background:linear-gradient(100deg, #0A101D 15%, rgba(10,16,29,0.75) 45%, rgba(10,16,29,0.35) 100%);
+  }
+  .hero .facet-bg{ z-index:1; }
   .hero .facet-bg svg{ width:100%; height:100%; opacity:0.5; }
+  .hero-eyebrow, .hero h1, .hero-sub, .hero-meta, .scroll-cue{ position:relative; z-index:2; }
   .hero-eyebrow{
     display:inline-flex; align-items:center; gap:10px; width:fit-content;
     font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.12em; text-transform:uppercase;
@@ -214,7 +243,14 @@
     display:flex; align-items:center; justify-content:center;
     background:var(--navy-950); clip-path:polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
     color:var(--gold-light); font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:16px;
+    overflow:hidden;
   }
+  .avatar img{
+    width:100%; height:100%; object-fit:cover; object-position:center;
+    clip-path:polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  }
+  .avatar .avatar-fallback{ position:relative; z-index:1; }
+  .avatar.has-photo .avatar-fallback{ display:none; }
   .member-name{ font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:17px; }
   .member-role{ font-size:12.5px; color:var(--slate); margin-top:2px; }
   .member-facts{ display:flex; gap:18px; margin-bottom:20px; padding-bottom:20px; border-bottom:1px dashed var(--line); }
@@ -251,6 +287,14 @@
     background:linear-gradient(160deg, var(--navy-800), var(--navy-950));
   }
   .gcard .facet-bg svg{ opacity:0.4; }
+  .gcard img{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:1;
+  }
+  .gcard.has-photo{ background:none; }
+  .gcard.has-photo::before{
+    content:''; position:absolute; inset:0; z-index:1;
+    background:linear-gradient(180deg, rgba(10,16,29,0) 40%, rgba(10,16,29,0.85) 100%);
+  }
   .gcard span{ position:relative; z-index:2; font-family:'IBM Plex Mono',monospace; font-size:12px; color:rgba(255,255,255,0.75); letter-spacing:0.04em; }
 
   /* ---------- Footer ---------- */
@@ -280,6 +324,12 @@
 
 <!-- ================= HERO ================= -->
 <header class="hero">
+  <!-- ===== [FOTO] Latar hero — opsional =====
+       Isi src di bawah, misal: assets/photos/hero-team.jpg
+       Kalau tidak dipakai, biarkan src kosong / hapus tag <img> ini. -->
+  <div class="hero-photo">
+    <img id="heroPhoto" src="" alt="Tim Spektra" onerror="this.closest('.hero-photo').style.display='none'">
+  </div>
   <div class="facet-bg">
     <svg viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice">
       <defs>
@@ -399,22 +449,31 @@ const awards = [
   { tim:"Spektra", konvensi:"Cipta", penghargaan:"Platinum", lokasi:"Cipta", tahun:2025 },
 ];
 
+// ===== [FOTO] Anggota tim =====
+// Isi field "foto" dengan path/URL foto masing-masing, contoh:
+// foto: "assets/photos/handoko.jpg"
+// atau kalau di-hosting di GitHub Pages: "https://username.github.io/repo/assets/photos/handoko.jpg"
+// Kalau dibiarkan "" atau link salah/gagal dimuat, otomatis fallback ke inisial nama.
 const members = [
-  { nama:"Handoko", lahir:"05 September 1982", bagian:"Slitting Operator", masaKerja:"24 tahun", k:3.96, s:3.44, a:3.74, pr:3.79 },
-  { nama:"Samsul Bukhori", lahir:"18 Januari 1994", bagian:"Slitting Operator", masaKerja:"13 tahun", k:3.83, s:3.33, a:3.56, pr:3.82 },
-  { nama:"M. Baharudin S", lahir:"12 Oktober 2004", bagian:"Slitting Operator", masaKerja:"1 tahun", k:4.17, s:3.39, a:3.56, pr:3.82 },
-  { nama:"Naufal Rifky Ananda", lahir:"14 Agustus 2002", bagian:"Slitting Operator", masaKerja:"1 tahun", k:4.17, s:3.39, a:3.56, pr:3.82 },
-  { nama:"Dedi Ubaydillah", lahir:"20 Desember 2001", bagian:"Quality Control", masaKerja:"2 tahun", k:4.17, s:3.50, a:3.93, pr:3.68 },
-  { nama:"Seh Satiari", lahir:"17 Desember 1998", bagian:"Slitting Operator", masaKerja:"4 tahun", k:3.92, s:3.06, a:3.33, pr:3.89 },
+  { nama:"Handoko", lahir:"05 September 1982", bagian:"Slitting Operator", masaKerja:"24 tahun", k:3.96, s:3.44, a:3.74, pr:3.79, foto:"https://kkmslitter-bit.github.io/timspektra/repo/assets/photos/Gambar3.png" /* <- FOTO Handoko */ },
+  { nama:"Samsul Bukhori", lahir:"18 Januari 1994", bagian:"Slitting Operator", masaKerja:"13 tahun", k:3.83, s:3.33, a:3.56, pr:3.82, foto:"" /* <- FOTO Samsul Bukhori */ },
+  { nama:"M. Baharudin S", lahir:"12 Oktober 2004", bagian:"Slitting Operator", masaKerja:"1 tahun", k:4.17, s:3.39, a:3.56, pr:3.82, foto:"" /* <- FOTO M. Baharudin S */ },
+  { nama:"Naufal Rifky Ananda", lahir:"14 Agustus 2002", bagian:"Slitting Operator", masaKerja:"1 tahun", k:4.17, s:3.39, a:3.56, pr:3.82, foto:"" /* <- FOTO Naufal Rifky Ananda */ },
+  { nama:"Dedi Ubaydillah", lahir:"20 Desember 2001", bagian:"Quality Control", masaKerja:"2 tahun", k:4.17, s:3.50, a:3.93, pr:3.68, foto:"" /* <- FOTO Dedi Ubaydillah */ },
+  { nama:"Seh Satiari", lahir:"17 Desember 1998", bagian:"Slitting Operator", masaKerja:"4 tahun", k:3.92, s:3.06, a:3.33, pr:3.89, foto:"" /* <- FOTO Seh Satiari */ },
 ];
 
-const galleryCaptions = [
-  "Tim Spektra — Training KKM bersama CHR",
-  "Penyerahan sertifikat & piala Konvensi Plant",
-  "Predikat Diamond — Konvensi Divisi Packaging",
-  "Kunjungan apresiasi tim di kantor Indofood CBP",
-  "Podium Cipta — perolehan Gold CIPTA 2024",
-  "Excellence Through Endless Improvement — tim lengkap"
+// ===== [FOTO] Galeri =====
+// Isi field "foto" dengan path/URL tiap foto, contoh:
+// foto: "assets/photos/gallery-01.jpg"
+// Kalau dibiarkan "" atau link gagal dimuat, kartu otomatis menampilkan pola facet sebagai fallback.
+const galleryItems = [
+  { cap:"Tim Spektra — Training KKM bersama CHR", foto:"" /* <- FOTO galeri 1 */ },
+  { cap:"Penyerahan sertifikat & piala Konvensi Plant", foto:"" /* <- FOTO galeri 2 */ },
+  { cap:"Predikat Diamond — Konvensi Divisi Packaging", foto:"" /* <- FOTO galeri 3 */ },
+  { cap:"Kunjungan apresiasi tim di kantor Indofood CBP", foto:"" /* <- FOTO galeri 4 */ },
+  { cap:"Podium Cipta — perolehan Gold CIPTA 2024", foto:"" /* <- FOTO galeri 5 */ },
+  { cap:"Excellence Through Endless Improvement — tim lengkap", foto:"" /* <- FOTO galeri 6 */ }
 ];
 
 const gemSVG = `<svg viewBox="0 0 24 24" fill="none"><polygon points="12,2 20,8 20,16 12,22 4,16 4,8" fill="currentColor" opacity="0.15"/><polygon points="12,2 20,8 20,16 12,22 4,16 4,8" stroke="currentColor" stroke-width="1.3"/><line x1="4" y1="8" x2="20" y2="8" stroke="currentColor" stroke-width="0.8"/><line x1="12" y1="2" x2="12" y2="22" stroke="currentColor" stroke-width="0.5" opacity="0.6"/></svg>`;
@@ -456,7 +515,10 @@ members.forEach(m => {
   card.className = 'member-card';
   card.innerHTML = `
     <div class="member-top">
-      <div class="avatar">${initials}</div>
+      <div class="avatar">
+        <img src="${m.foto}" alt="${m.nama}" onerror="this.style.display='none'; this.closest('.avatar').classList.remove('has-photo')" onload="this.closest('.avatar').classList.add('has-photo')">
+        <span class="avatar-fallback">${initials}</span>
+      </div>
       <div>
         <div class="member-name">${m.nama}</div>
         <div class="member-role">${m.bagian}</div>
@@ -483,14 +545,15 @@ members.forEach(m => {
 
 // ---------------- render gallery ----------------
 const galleryStrip = document.getElementById('galleryStrip');
-galleryCaptions.forEach((cap, i) => {
+galleryItems.forEach((item, i) => {
   const g = document.createElement('div');
   g.className = 'gcard';
   g.innerHTML = `
     <div class="facet-bg"><svg viewBox="0 0 280 190" preserveAspectRatio="xMidYMid slice">
       <polygon points="${40+i*20},10 260,${40+i*8} 220,180 60,150" fill="none" stroke="#E8C878" stroke-width="0.8"/>
     </svg></div>
-    <span>${String(i+1).padStart(2,'0')} — ${cap}</span>
+    <img src="${item.foto}" alt="${item.cap}" onerror="this.style.display='none'" onload="this.closest('.gcard').classList.add('has-photo')">
+    <span>${String(i+1).padStart(2,'0')} — ${item.cap}</span>
   `;
   galleryStrip.appendChild(g);
 });
@@ -523,3 +586,5 @@ io2.observe(memberSection);
 </script>
 </body>
 </html>
+tim-spektra-1.html
+Menampilkan tim-spektra-1.html.
