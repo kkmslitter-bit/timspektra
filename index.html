@@ -258,6 +258,27 @@
   .badge-dot.Gold{ background:var(--gold); }
   .badge-dot.Platinum{ background:var(--platinum); }
 
+  /* ---------- Facilitator card ---------- */
+  .facilitator-card{
+    background:var(--navy-950); color:#fff; border-radius:6px; padding:30px 32px;
+    position:relative; overflow:hidden; margin-bottom:26px;
+    display:flex; align-items:center; gap:24px; flex-wrap:wrap;
+  }
+  .facilitator-card .facet-bg svg{ opacity:0.4; }
+  .facilitator-card .avatar{
+    width:72px; height:72px; background:var(--navy-800); color:var(--gold-light); font-size:20px;
+    border:1px solid rgba(232,200,120,0.35);
+  }
+  .facilitator-info{ position:relative; z-index:1; flex:1; min-width:200px; }
+  .facilitator-tag{
+    display:inline-flex; align-items:center; gap:8px; font-family:'IBM Plex Mono',monospace;
+    font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold-light);
+    border:1px solid rgba(232,200,120,0.35); border-radius:100px; padding:5px 14px; margin-bottom:10px;
+  }
+  .facilitator-tag .dot{ width:6px; height:6px; border-radius:50%; background:var(--gold-light); }
+  .facilitator-name{ font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:22px; }
+  .facilitator-role{ font-size:13.5px; color:rgba(255,255,255,0.55); margin-top:4px; }
+
   /* ---------- Gallery ---------- */
   #galeri{ background:var(--navy-950); color:#fff; }
   #galeri .section-head p{ color:rgba(255,255,255,0.55); }
@@ -408,6 +429,7 @@
     <h2>Enam orang di balik Tim Spektra.</h2>
     <p>Masa kerja beragam — dari satu tahun hingga dua dekade lebih — disatukan oleh kompetensi yang terus diukur dan ditingkatkan.</p>
   </div>
+  <div id="facilitatorCard"></div>
   <div class="member-grid" id="memberGrid"></div>
 </section>
 
@@ -441,6 +463,12 @@ const awards = [
 // foto: "assets/photos/handoko.jpg"
 // atau kalau di-hosting di GitHub Pages: "https://username.github.io/repo/assets/photos/handoko.jpg"
 // Kalau dibiarkan "" atau link salah/gagal dimuat, otomatis fallback ke inisial nama.
+// ===== [FOTO] Fasilitator =====
+// Isi field "foto" untuk menampilkan foto. Kalau "" atau gagal load, fallback ke inisial.
+const facilitator = {
+  nama:"Iman Rachmansyah", peran:"Fasilitator Tim Spektra", foto:"" /* <- FOTO fasilitator */
+};
+
 const members = [
   { nama:"Handoko", lahir:"05 September 1982", bagian:"Slitting Operator", masaKerja:"24 tahun", k:3.96, s:3.44, a:3.74, pr:3.79, foto:"assets/photos/handoko.jpg"},
   { nama:"Samsul Bukhori", lahir:"18 Januari 1994", bagian:"Slitting Operator", masaKerja:"13 tahun", k:3.83, s:3.33, a:3.56, pr:3.82, foto:"assets/photos/samsul.jpg"},
@@ -494,6 +522,30 @@ document.querySelectorAll('.chip').forEach(chip => {
     renderAwards(chip.dataset.filter);
   });
 });
+
+// ---------------- render facilitator ----------------
+const facilitatorCard = document.getElementById('facilitatorCard');
+(function renderFacilitator(f){
+  const initials = f.nama.split(' ').map(w => w[0]).slice(0,2).join('').toUpperCase();
+  const card = document.createElement('div');
+  card.className = 'facilitator-card';
+  card.innerHTML = `
+    <div class="facet-bg"><svg viewBox="0 0 400 160" preserveAspectRatio="xMidYMid slice">
+      <polygon points="320,10 400,60 380,150 280,140" fill="none" stroke="#E8C878" stroke-width="0.8"/>
+      <polygon points="0,140 60,60 140,150" fill="none" stroke="#8FD8E3" stroke-width="0.6"/>
+    </svg></div>
+    <div class="avatar">
+      <img src="${f.foto}" alt="${f.nama}" onerror="this.style.display='none'; this.closest('.avatar').classList.remove('has-photo')" onload="this.closest('.avatar').classList.add('has-photo')">
+      <span class="avatar-fallback">${initials}</span>
+    </div>
+    <div class="facilitator-info">
+      <div class="facilitator-tag"><span class="dot"></span>Fasilitator</div>
+      <div class="facilitator-name">${f.nama}</div>
+      <div class="facilitator-role">${f.peran}</div>
+    </div>
+  `;
+  facilitatorCard.appendChild(card);
+})(facilitator);
 
 // ---------------- render members ----------------
 const memberGrid = document.getElementById('memberGrid');
